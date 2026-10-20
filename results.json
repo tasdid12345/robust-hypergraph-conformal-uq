@@ -1,0 +1,33 @@
+{
+  "question": "Can split conformal prediction calibrated on noise-perturbed hypergraph structure keep its nominal coverage better than standard clean-calibrated conformal prediction when the test hypergraph is corrupted?",
+  "method": "kNN hypergraph on standardized digits features; node features concatenated with hypergraph-smoothed features; split conformal (LAC) with alpha=0.1; 3 seeds, mean and std reported.",
+  "dataset": {
+    "name": "scikit-learn digits (load_digits)",
+    "source_url": "https://scikit-learn.org/stable/datasets/toy_dataset.html",
+    "n_rows": 1797,
+    "n_train": 898,
+    "n_test": 450,
+    "same_as_paper": false,
+    "baseline_is_papers_method": false
+  },
+  "metric_name": "abs(coverage on corrupted test structure - 0.90)",
+  "higher_is_better": false,
+  "baseline": "MLP (one hidden layer of 128) on clean hypergraph-smoothed features with split conformal prediction calibrated on the clean hypergraph.",
+  "improved": "HistGradientBoosting trained on clean plus structure-corrupted copies (20% of memberships replaced), conformal calibration pooled over clean and corrupted calibration structures.",
+  "metrics": {
+    "baseline_score": 0.09777777777777781,
+    "improved_score": 0.0103703703703704,
+    "improvement": 0.0874074074074074,
+    "baseline_score_std": 0.013698697784375496,
+    "improved_score_std": 0.013125959367903254,
+    "baseline_corrupted_coverage": 0.8022222222222223,
+    "improved_corrupted_coverage": 0.8896296296296295,
+    "baseline_clean_coverage": 0.8977777777777778,
+    "improved_clean_coverage": 0.9318518518518518,
+    "baseline_set_size": 0.8059259259259259,
+    "improved_set_size": 0.9029629629629631,
+    "baseline_f1": 0.9626161625695318,
+    "improved_f1": 0.9508008061991893
+  },
+  "notes": "Single stratified 50/25/25 split; test set used once per seed for final evaluation. No hyper-parameter search was run, so no CV-based selection occurred. Corruption is uniform random, not adversarial. Coverage is averaged over 3 seeds which vary model init and corruption draws; the std is over these seeds. Hypergraph is built transductively over all nodes using features only (no labels)."
+}
